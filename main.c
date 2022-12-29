@@ -93,24 +93,14 @@ int main (void) {
   mandel_init();
   //Slow method of clearing whole screen
   ST7789_ClearAll();
-       calc_n_draw(0);
  
   while(1) {
 
     NVIC_DisableIRQ(EXTI15_10_IRQn);
     
-    //Update display buffer with DMA
-    if (get_transfer() == 0)
-    {
-      cnt++;
-      calc_n_draw(cnt);
-      delay_nops(DLMUL * 500);
-    }
-//    //Write to buffer here
-//    if (get_transfer() == 1)
-//    {
-//    }
-
+    cnt++;
+    mandel_zoom(0.1f);
+    calc_n_draw();
 
     NVIC_EnableIRQ(EXTI15_10_IRQn);  
   }
@@ -128,39 +118,38 @@ void DMA2_Stream3_IRQHandler(void)
 		{
 			
 		if(DMA2->LISR&(DMA_LISR_TCIF3))
-				{
-					//printf("finished transfered\r\n");
+    {
+      //printf("finished transfered\r\n");
 
-          /* gpio_up(GPIO_PIN_OLED_CS);  Theoretically needed after transfer*/
-					DMA2_Stream3->CR&=~DMA_SxCR_EN;
-					DMA2->LIFCR |=DMA_LIFCR_CTCIF3;
-          set_transfer(0);
-				}
+      DMA2_Stream3->CR&=~DMA_SxCR_EN;
+      DMA2->LIFCR |=DMA_LIFCR_CTCIF3;
+      set_transfer(0);
+    }
 				
 		if(DMA2->LISR&(DMA_LISR_HTIF3))
-				{
-					//printf("half transfered\r\n");
-					DMA2->LIFCR |=DMA_LIFCR_CHTIF3;
-				}
+    {
+      //printf("half transfered\r\n");
+      DMA2->LIFCR |=DMA_LIFCR_CHTIF3;
+    }
 				
 		
 		if(DMA2->LISR&(DMA_LISR_TEIF3))
-						{
-						//printf("transfer error interrupt\r\n");
-						DMA2->LIFCR|=(DMA_LIFCR_CTEIF3);
-						}
+    {
+    //printf("transfer error interrupt\r\n");
+    DMA2->LIFCR|=(DMA_LIFCR_CTEIF3);
+    }
 						
 		if(DMA2->LISR&(DMA_LISR_DMEIF3))
-						{
-						//printf("Direct mode interrupt error\r\n");
-						DMA2->LIFCR|=(DMA_LIFCR_CDMEIF3);
-						}
+    {
+    //printf("Direct mode interrupt error\r\n");
+    DMA2->LIFCR|=(DMA_LIFCR_CDMEIF3);
+    }
 						
 		if(DMA2->LISR&(DMA_LISR_FEIF3))
-						{
-						//printf("FIFO error interrupt\r\n");
-						DMA2->LIFCR|=(DMA_LIFCR_CFEIF3);
-						}
+    {
+    //printf("FIFO error interrupt\r\n");
+    DMA2->LIFCR|=(DMA_LIFCR_CFEIF3);
+    }
 
 			NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);
 		}

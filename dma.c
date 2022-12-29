@@ -20,12 +20,12 @@ void dma_init(void) {
 
 }
 
-volatile uint8_t get_transfer(void)
+uint8_t get_transfer(void)
 {
   return transfer;
 }
 
-volatile void set_transfer(uint8_t tr)
+void set_transfer(uint8_t tr)
 {
   transfer = tr;
 }

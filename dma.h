@@ -20,6 +20,6 @@ void dma_spi_disable(void);
 void dma_init(void);
 void dma_start(uint8_t *data, uint32_t size);
 
-volatile uint8_t get_transfer(void);
-volatile void set_transfer(uint8_t tr);
+uint8_t get_transfer(void);
+void set_transfer(uint8_t tr);
 #endif

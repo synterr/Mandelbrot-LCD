@@ -25,17 +25,13 @@ uint16_t string_to_int(char* input) {
    return (uint16_t)atoi(input);
 }
 
-/**
- * Find maximum between two numbers.
- */
+//Find maximum between two numbers.
 int max(int num1, int num2)
 {
     return (num1 > num2 ) ? num1 : num2;
 }
 
-/**
- * Find minimum between two numbers.
- */
+// Find minimum between two numbers.
 int min(int num1, int num2) 
 {
     return (num1 > num2 ) ? num2 : num1;

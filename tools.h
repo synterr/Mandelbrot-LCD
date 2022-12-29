@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include <string.h> /* strlen */
-#include <stdlib.h> /* atof */
+#include <string.h> 
+#include <stdlib.h> 
+#include <math.h>
 
 #define DLMUL 6000
 

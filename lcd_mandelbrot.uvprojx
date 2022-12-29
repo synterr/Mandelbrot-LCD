@@ -400,11 +400,6 @@
               <FilePath>.\spi.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\uart.c</FilePath>
-            </File>
-            <File>
               <FileName>tools.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\tools.c</FilePath>

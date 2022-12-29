@@ -10,20 +10,6 @@
 #include "dma.h"
 #include "tools.h"
 
-/* choose a Hardware SPI port to use. */
-#define ST7789_SPI_PORT hspi1
-
-/* choose whether use DMA or not */
-//#define USE_DMA
-
-/* If u need CS control, comment below*/
-//#define CFG_NO_CS
-
-
-/* If u need Backlight control, uncomment below */
-//#define BLK_PORT
-//#define BLK_PIN
-
 
 /*
  * Comment one to use another.
@@ -128,33 +114,6 @@
 
 #endif
 
-/**
- *Color of pen
- *If you want to use another color, you can choose one in RGB565 format.
- */
-
-#define WHITE       0xFFFF
-#define BLACK       0x0000
-#define BLUE        0x001F
-#define RED         0xF800
-#define MAGENTA     0xF81F
-#define GREEN       0x07E0
-#define CYAN        0x7FFF
-#define YELLOW      0xFFE0
-#define GRAY        0X8430
-#define BRED        0XF81F
-#define GRED        0XFFE0
-#define GBLUE       0X07FF
-#define BROWN       0XBC40
-#define BRRED       0XFC07
-#define DARKBLUE    0X01CF
-#define LIGHTBLUE   0X7D7C
-#define GRAYBLUE    0X5458
-
-#define LIGHTGREEN  0X841F
-#define LGRAY       0XC618
-#define LGRAYBLUE   0XA651
-#define LBBLUE      0X2B12
 
 /* Control Registers and constant codes */
 #define ST7789_NOP     0x00
@@ -227,39 +186,9 @@
 void ST7789_SpiInit(void);
 void ST7789_Init(void);
 void ST7789_SetRotation(uint8_t m);
-void ST7789_Fill_Color(uint16_t color);
 void ST7789_ClearAll(void);
-void ST7789_DrawPixel(uint16_t x, uint16_t y, uint32_t color);
+
 void ST7789_SetAddressWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
-//void ST7789_Display(bool clear_background);
-void ST7789_Fill(uint16_t xSta, uint16_t ySta, uint16_t xEnd, uint16_t yEnd, uint32_t color);
-void ST7789_DrawPixel_4px(uint16_t x, uint16_t y, uint32_t color);
-/* Graphical functions. */
-void ST7789_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint32_t color);
-void ST7789_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint32_t color);
-void ST7789_DrawCircle(uint16_t x0, uint16_t y0, uint8_t r, uint32_t color);
-void ST7789_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t *data);
-void ST7789_InvertColors(uint8_t invert);
-
-/* Text functions. */
-//void ST7789_WriteChar(uint16_t x, uint16_t y, char ch, FontDef font, uint16_t color, uint32_t bgcolor);
-//void ST7789_WriteString(uint16_t x, uint16_t y, const char *str, FontDef font, uint16_t color, uint32_t bgcolor);
-
-/* Extented Graphical functions. */
-void ST7789_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t color);
-void ST7789_DrawTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, uint32_t color);
-void ST7789_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, uint32_t color);
-void ST7789_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, uint32_t color);
-
-/* Command functions */
-void ST7789_TearEffect(uint8_t tear);
-
-/* Simple test function. */
-//void ST7789_Test(void);
-
-#ifndef ST7789_ROTATION
-    #error You should at least choose a display rotation!
-#endif
 
 #endif
 
