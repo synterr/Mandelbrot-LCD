@@ -11,6 +11,11 @@
 #include "tools.h"
 
 
+/* Choose a color mode */
+//#define  COLOR_MODE_18     // 18 bit (3 bytes per color)
+#define  COLOR_MODE_16     // 16 bit (2 bytes per color)
+
+
 /*
  * Comment one to use another.
  * 3 parameters can be choosed
@@ -189,6 +194,7 @@ void ST7789_SetRotation(uint8_t m);
 void ST7789_ClearAll(void);
 
 void ST7789_SetAddressWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+uint16_t ST7789_RGBToColor(uint8_t r, uint8_t g, uint8_t b);
 
 #endif
 

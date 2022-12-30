@@ -121,8 +121,6 @@ void ST7789_SpiInit(void)
     ST7789_RST_Set();
     delay_nops(50);
 		
-    ST7789_WriteCommand(ST7789_COLMOD);		//	Set color mode
-    ST7789_WriteSmallData(ST7789_COLOR_MODE_16bit);
   	ST7789_WriteCommand(0xB2);				//	Porch control
     {
       uint8_t data[] = {0x0C, 0x0C, 0x00, 0x33, 0x33};
@@ -149,6 +147,13 @@ void ST7789_SpiInit(void)
     ST7789_WriteSmallData (0xA4);			//	Default value
     ST7789_WriteSmallData (0xA1);			//	Default value
 	/**************** Division line ****************/
+
+    ST7789_WriteCommand(ST7789_COLMOD);		//	Set color mode
+#ifdef COLOR_MODE_16
+    ST7789_WriteSmallData(ST7789_COLOR_MODE_16bit);
+#elif COLOR_MODE_16
+    ST7789_WriteSmallData(ST7789_COLOR_MODE_18bit);
+#endif
 
     ST7789_WriteCommand(0xE0);
     {
@@ -186,3 +191,6 @@ void ST7789_ClearAll(void)
 	ST7789_UnSelect();
 }
 
+uint16_t ST7789_RGBToColor(uint8_t r, uint8_t g, uint8_t b) {
+	return (((uint16_t)r >> 3) << 11) | (((uint16_t)g >> 2) << 5) | ((uint16_t)b >> 3);
+}

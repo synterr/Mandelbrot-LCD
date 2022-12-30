@@ -7,6 +7,14 @@
 #include "lcd.h"
 #include "tools.h"
 
+#define FLOAT_BITS 20
+#define FLOAT_FACT ((float_t)1 << FLOAT_BITS)
+#define MANDELBROT_MAXITER 1024
+
+#define FLOAT_FAST_BITS 13
+#define FLOAT_FAST_FACT ((float_t)1 << FLOAT_FAST_BITS)
+
+typedef int float_fast_t;
 
 typedef struct color {
   uint8_t r;
