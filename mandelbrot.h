@@ -22,11 +22,12 @@ typedef struct HSL
 	float L;
 }HSL;
 
+extern bool paused;
 
 void mandel_init(void);
 void mandel_zoom(float factor);
 void calc_n_draw(void);
-color process_pixel(uint8_t px, uint8_t py);
+color process_pixel(void);
 float HueToRGB(float v1, float v2, float vH);
 color HSLToRGB(HSL hsl);
 #endif

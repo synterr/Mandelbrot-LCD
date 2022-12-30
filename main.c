@@ -110,7 +110,7 @@ void EXTI15_10_IRQHandler(void) {
   if (EXTI->PR & (1 << BTN_PINPOS) ) {
     /* clear the interrupt flag by writing a 1 */
     EXTI->PR |= (1 << BTN_PINPOS);
-
+    paused = !paused;
   }
 }
 
