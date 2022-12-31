@@ -55,7 +55,7 @@ void mandel_init(void){
   //create hues table with constant saturation and lightness levels
   for (uint16_t i = 0; i < 360; i++)
   {
-    HSL temp = {i, 0.95f, 0.6f};
+    HSL temp = {i, 0.95f, 0.7f};
     hues_colors[i] = HSLToRGB(temp);
     loglog2[i] = logf(log2f((float)i/5.625f));    
   }
@@ -83,19 +83,26 @@ void mandel_init(void){
 
 void mandel_zoom(float factor){
 
-  fadecount +=1;
   drawcount +=4;
   drawcount %= 360;
-  
+
   if (paused)
-    return;
+    return;  
+
   
   //max zoom value below 0.000065f lost of float precission
-  if (fabsf(width) < 0.0002f)
+  if (fabsf(width) <= 0.0002f)
   {
     width = 0.0002f;
     paused = true;
   } 
+  else
+  {
+    width -= width/24.0f;
+  }
+  width_div2 = width/2.0f;
+  
+  fadecount++;
   //fade from initial point to feature center (animated position shift at beginning)
   float fadeparam = (float)fadecount/40;
   if (fadeparam > 1.0f){
@@ -104,9 +111,6 @@ void mandel_zoom(float factor){
   }
   xstart = xcenter_init + (xcenter-xcenter_init)*fadeparam - width_div2;
   ystart = ycenter_init + (ycenter-ycenter_init)*fadeparam - width_div2;
-
-  width -= width/24.0f;
-  width_div2 = width/2.0f;
 
   scale = (float)width/ST7789_WIDTH;
   max_iter = 14 * powf((log10f(240/width)),1.5f);
