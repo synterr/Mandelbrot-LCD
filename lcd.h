@@ -12,8 +12,8 @@
 
 
 /* Choose a color mode */
-//#define  COLOR_MODE_18     // 18 bit (3 bytes per color)
-#define  COLOR_MODE_16     // 16 bit (2 bytes per color)
+#define  COLOR_MODE_18     // 18 bit (3 bytes per color)
+//#define  COLOR_MODE_16     // 16 bit (2 bytes per color)
 
 
 /*

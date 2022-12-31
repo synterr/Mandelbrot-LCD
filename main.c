@@ -91,9 +91,9 @@ int main (void) {
   dma_spi_enable();
   ST7789_SpiInit();
   mandel_init();
-  //Slow method of clearing whole screen
+
   ST7789_ClearAll();
- 
+
   while(1) {
 
     NVIC_DisableIRQ(EXTI15_10_IRQn);

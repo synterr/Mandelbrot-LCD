@@ -151,19 +151,19 @@ void ST7789_SpiInit(void)
     ST7789_WriteCommand(ST7789_COLMOD);		//	Set color mode
 #ifdef COLOR_MODE_16
     ST7789_WriteSmallData(ST7789_COLOR_MODE_16bit);
-#elif COLOR_MODE_16
+#else 
     ST7789_WriteSmallData(ST7789_COLOR_MODE_18bit);
 #endif
 
-    ST7789_WriteCommand(0xE0);
+    ST7789_WriteCommand(0xE0);        //Gamma correction
     {
-      uint8_t data[] = {0xD0, 0x04, 0x0D, 0x11, 0x13, 0x2B, 0x3F, 0x54, 0x4C, 0x18, 0x0D, 0x0B, 0x1F, 0x23};
+      uint8_t data[] = {0xd0,0x08,0x11,0x08,0x0c,0x15,0x39,0x33,0x50,0x36,0x13,0x14,0x29,0x2d};
       ST7789_WriteData(data, sizeof(data));
     }
 
-    ST7789_WriteCommand(0xE1);
+    ST7789_WriteCommand(0xE1);        //Gamma correction
     {
-      uint8_t data[] = {0xD0, 0x04, 0x0C, 0x11, 0x13, 0x2C, 0x3F, 0x44, 0x51, 0x2F, 0x1F, 0x1F, 0x20, 0x23};
+      uint8_t data[] = {0xd0,0x08,0x10,0x08,0x06,0x06,0x39,0x44,0x51,0x0b,0x16,0x14,0x2f,0x31};
       ST7789_WriteData(data, sizeof(data));
     }
     
@@ -172,7 +172,6 @@ void ST7789_SpiInit(void)
   	ST7789_WriteCommand (ST7789_NORON);		//	Normal Display on
   	ST7789_WriteCommand (ST7789_DISPON);	//	Main screen turned on	
 
-  	//ST7789_Fill_Color(BLACK);				//	Fill with Black.
 }
 
 
