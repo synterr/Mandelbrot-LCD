@@ -6,7 +6,7 @@
   #define COLOR_BYTES 3
 #endif
 
-#define  DMA_LIN_CHUNKS 16 //Screen space will be divided in #num chunks vertically
+#define  DMA_LIN_CHUNKS 12 //Screen space will be divided in #num chunks vertically
 #define  DMA_LIN_CHUNK_SIZE (ST7789_HEIGHT/DMA_LIN_CHUNKS)
 
 //chunks swap buffers
@@ -17,6 +17,8 @@ static uint8_t buff1[ST7789_WIDTH * DMA_LIN_CHUNK_SIZE * COLOR_BYTES];
 //params for fractal
 static float xcenter;
 static float ycenter;
+static float xcenter_init;
+static float ycenter_init;
 static float scale;
 static float width;
 static float width_div2;
@@ -26,7 +28,7 @@ static float xstart;
 static float ystart;
 static uint8_t max_iter;
 static uint16_t drawcount;
-
+static uint16_t fadecount;
 static float x;
 static float y;
 static float xx;
@@ -59,36 +61,53 @@ void mandel_init(void){
   }
   
   drawcount = 0;
+  fadecount = 0;
+  //  
+  xcenter_init = -0.5f;
+  ycenter_init = 	0.0f;
   //xcenter =   -0.91667f;
   //ycenter = 	-0.3150f;
-  xcenter =   (-1.258496193441468865475 - 1.258369659209541685475)/2.0f;
-  ycenter = 	(-0.382327821334196598258 - 0.382422783671997698258)/2.0f;
+  //xcenter =   (-1.258496193441468865475 - 1.258369659209541685475)/2.0f;
+  //ycenter = 	(-0.382327821334196598258 - 0.382422783671997698258)/2.0f;
+  xcenter =   (-0.112800637633519726519 - 0.112593751170314544823)/2.0f;
+  ycenter = 	(-0.971759311452004927936 - 0.971966197915210109632)/2.0f;
 
-  width   = 4.000f;
+  width   = 5.00f;
   paused = false;
   width_div2 = width/2.0f;
-  xstart = xcenter - width_div2;
-  ystart = ycenter - width_div2;
+  xstart = xcenter_init - width_div2;
+  ystart = ycenter_init - width_div2;
   scale = (float)width/ST7789_WIDTH;
   max_iter = 14 * powf((log10f(240.0f/width)),1.5f);
 }
 
 void mandel_zoom(float factor){
+
+  fadecount +=1;
+  drawcount +=4;
+  drawcount %= 360;
   
   if (paused)
     return;
   
-  //max zoom value
-  if (fabsf(width) < 0.0004f)
+  //max zoom value below 0.000065f lost of float precission
+  if (fabsf(width) < 0.0002f)
   {
-    width = 0.0004f;
+    width = 0.0002f;
     paused = true;
   } 
+  //fade from initial point to feature center (animated position shift at beginning)
+  float fadeparam = (float)fadecount/40;
+  if (fadeparam > 1.0f){
+    fadeparam = 1.0f;
+    fadecount = 40;
+  }
+  xstart = xcenter_init + (xcenter-xcenter_init)*fadeparam - width_div2;
+  ystart = ycenter_init + (ycenter-ycenter_init)*fadeparam - width_div2;
 
   width -= width/24.0f;
   width_div2 = width/2.0f;
-  xstart = xcenter - width_div2;
-  ystart = ycenter - width_div2;
+
   scale = (float)width/ST7789_WIDTH;
   max_iter = 14 * powf((log10f(240/width)),1.5f);
 }
@@ -101,9 +120,6 @@ void calc_n_draw(void) {
   norm = 0;
   hs.H = 0; hs.L =0.95f; hs.S = 0.6f;
   
-  drawcount +=4;
-  drawcount %= 360;
-
   uint8_t* b0ptr = buff0;
   uint8_t* b1ptr = buff1;
   uint8_t px;

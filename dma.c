@@ -11,11 +11,9 @@ void dma_init(void) {
 	DMA2_Stream3->CR&=~DMA_SxCR_EN;
 	while((DMA2_Stream3->CR)&DMA_SxCR_EN){}
 
-    DMA2_Stream3->CR = ch3|DMA_SxCR_MINC|DMA_SxCR_DIR_0|DMA_SxCR_TCIE
-	                    |DMA_SxCR_HTIE|DMA_SxCR_TEIE|DMA_SxCR_DMEIE;
-    //DMA2_Stream3->CR &= ~(DMA_SxCR_PINC|DMA_SxCR_CIRC);
+  DMA2_Stream3->CR = ch3|DMA_SxCR_MINC|DMA_SxCR_DIR_0|DMA_SxCR_TCIE
+                    |DMA_SxCR_HTIE|DMA_SxCR_TEIE|DMA_SxCR_DMEIE;
     
-	//DMA2_Stream3->FCR=0;
 	DMA2_Stream3->FCR&=~DMA_SxFCR_DMDIS;
 
 }
@@ -42,10 +40,10 @@ void dma_spi_enable(void)
 
 void dma_spi_disable(void)
 {
-    NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);
-    //disable DMA_TX buffer
-		SPI1->CR2 &= ~SPI_CR2_TXDMAEN;
-    NVIC_DisableIRQ(DMA2_Stream3_IRQn);
+  NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);
+  //disable DMA_TX buffer
+  SPI1->CR2 &= ~SPI_CR2_TXDMAEN;
+  NVIC_DisableIRQ(DMA2_Stream3_IRQn);
 }
 
 
